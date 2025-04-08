@@ -1,0 +1,21 @@
+.scrollbar::-webkit-scrollbar {
+    width: 8px;
+}
+
+.scrollbar::-webkit-scrollbar-track {
+    background: #1212; /* Dark background for contrast */
+    border-radius: 10px;
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
+    background: linear-gradient(45deg, #ff00ff, #00ffff); /* Neon purple to cyan gradient */
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.6); /* Glowing effect */
+    transition: background 0.3s ease-in-out, box-shadow 0.3s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.scrollbar::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(45deg, #ff00ff, #ff5500); /* Change gradient on hover */
+    box-shadow: 0 0 15px rgba(255, 85, 0, 0.8); /* More glow on hover */
+    transform: scale(1.1); /* Slightly enlarges */
+}
