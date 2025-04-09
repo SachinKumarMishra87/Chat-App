@@ -57,11 +57,13 @@ const Home = () => {
   // Socket connection
   useEffect(() => {
     const socketConnection = io(import.meta.env.VITE_BACKEND_URL, {
+      transports: ["websocket", "polling"],
       auth: {
         token: localStorage.getItem("token")
       }
     })
 
+    
     socketConnection.on("onlineUser", (data) => {
       dispatch(setOnlineUser(data))
     })
