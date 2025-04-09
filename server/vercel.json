@@ -1,6 +1,6 @@
 {
     "version" : 2,
-    "name" : "Binkeyit",
+    "name" : "Chat App",
     "builds" : [
         {
             "src" : "./index.js",
