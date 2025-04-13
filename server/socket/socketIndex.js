@@ -5,6 +5,7 @@ import getUserDetailsFromToken from "../helper/getUserDetailsFromToken.js";
 import UserModel from "../models/UserModel.js";
 import { ConversationModel, MessageModel } from "../models/ConversationModel.js";
 import getConversation from "../helper/getConversation.js";
+import mongoose from "mongoose";
 
 const app = express();
 
@@ -34,6 +35,10 @@ io.on("connection", async (socket) => {
     io.emit("onlineUser", Array.from(onlineUser))
 
     socket.on("message-page", async (userId) => {
+        if (!mongoose.Types.ObjectId.isValid(userId)) {
+            console.error("Invalid userId in message-page:", userId);
+            return; // Exit the event handler
+        }
         const userDetails = await UserModel.findById(userId).select("-password")
 
         const payload = {
@@ -131,7 +136,10 @@ io.on("connection", async (socket) => {
     })
 
     socket.on("seen", async (msgByUserId) => {
-
+        if(!mongoose.Types.ObjectId.isValid(msgByUserId)){
+            console.error("invalid msgByUserId", msgByUserId);
+            return;
+        }
         let conversation = await ConversationModel.findOne({
             "$or": [
                 { sender: user?._id, receiver: msgByUserId },
@@ -151,7 +159,6 @@ io.on("connection", async (socket) => {
                 }
             }
         )
-
         // send conversation
         const senderConversation = await getConversation(user?._id?.toString())
         const receiverConversation = await getConversation(msgByUserId)

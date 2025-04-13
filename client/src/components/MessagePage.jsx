@@ -10,7 +10,6 @@ import { IoClose } from "react-icons/io5";
 import backgroundImage from "../assets/wallapaper.jpeg"
 import { IoMdSend } from "react-icons/io";
 import moment from "moment"
-import mongoose from 'mongoose';
 import toast from 'react-hot-toast';
 
 const MessagePage = () => {
@@ -95,15 +94,21 @@ const MessagePage = () => {
   }
 
   useEffect(() => {
-    if (!mongoose.Types.ObjectId.isValid(params?.userId)) {
-      // Invalid userId, redirect or show error
-      toast.error('Invalid user ID');
-      navigate("/"); // Redirect to home page
-      return;
+    if (params?.userId) {
+      fetch(`${import.meta.env.VITE_BACKEND_URL}/api/users/${params.userId}/validate`)
+        .then((response) => {
+          if (!response.ok) {
+            toast.error('Invalid user ID');
+            navigate('/'); // Navigate to home if invalid
+          }
+        })
+        .catch((error) => {
+          console.error('User validation error:', error);
+          toast.error('Failed to validate user');
+          navigate('/'); // Navigate to home on fetch error
+        });
     }
-    // Rest of your code
   }, [params.userId, navigate]);
-
 
   useEffect(() => {
     if (socketConnection) {
