@@ -11,13 +11,6 @@ app.use(cors({
     origin : process.env.FRONTEND_URL,
     credentials : true
 }))
-// app.use(
-//     cors({
-//       origin: [process.env.FRONTEND_URL,"https://chat-app-real-time-cyan.vercel.app"], // Apne frontend ka actual URL yaha set karo
-//       methods: ["GET", "POST", "PUT", "DELETE"],
-//       credentials: true,
-//     })
-//   );
 
 app.use(express.json())
 const PORT = 8080

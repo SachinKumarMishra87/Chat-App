@@ -22,8 +22,6 @@ const Home = () => {
     }
   }, []);
 
-  
-
   const fetchUserDetails = async () => {
     try {
       const URL = `${import.meta.env.VITE_BACKEND_URL}/api/user-details`; // Yeh sahi hai

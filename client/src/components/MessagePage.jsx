@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux';
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import Avatar from './Avatar';
 import { HiDotsVertical } from "react-icons/hi";
 import { FaAngleLeft, FaImage, FaPlus, FaVideo } from "react-icons/fa";
@@ -10,6 +10,8 @@ import { IoClose } from "react-icons/io5";
 import backgroundImage from "../assets/wallapaper.jpeg"
 import { IoMdSend } from "react-icons/io";
 import moment from "moment"
+import mongoose from 'mongoose';
+import toast from 'react-hot-toast';
 
 const MessagePage = () => {
   const params = useParams();
@@ -32,6 +34,8 @@ const MessagePage = () => {
   const [uploadVdoLoading, setUploadVdoLoading] = useState(false)
   const [allMessages, setAllMessages] = useState([])
   const currentMessage = useRef()
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (currentMessage.current) {
@@ -66,7 +70,6 @@ const MessagePage = () => {
     }))
 
   }
-
   const handleSubmit = async (e) => {
     e.preventDefault()
     if (message.text || message.imageUrl || message.videoUrl) {
@@ -90,6 +93,17 @@ const MessagePage = () => {
 
 
   }
+
+  useEffect(() => {
+    if (!mongoose.Types.ObjectId.isValid(params?.userId)) {
+      // Invalid userId, redirect or show error
+      toast.error('Invalid user ID');
+      navigate("/"); // Redirect to home page
+      return;
+    }
+    // Rest of your code
+  }, [params.userId, navigate]);
+
 
   useEffect(() => {
     if (socketConnection) {

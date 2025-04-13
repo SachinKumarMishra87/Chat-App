@@ -59,7 +59,6 @@ io.on("connection", async (socket) => {
         socket.emit("message", getConversationMessage?.messages || [])
     })
 
-
     // new message
     socket.on("new message", async (data) => {
         const { sender, receiver, text, imageUrl, videoUrl } = data
